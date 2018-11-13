@@ -7,8 +7,27 @@
 </template>
 
 <script>
+// 引入发请求的模块
+import request from '@/utils/request'
 export default {
-    neme: 'Login'
+    neme: 'Login',
+    data () {
+        return {
+
+        }
+    },
+    methods: {
+
+    },
+    // 钩子函数，当组件加载完毕之后自动执行
+    mounted:function () {
+        request({
+            url:'/index',
+            method:"get"
+        }).then((res)=>{
+            console.log(res.data);
+        })
+    }
 }
 </script>
 

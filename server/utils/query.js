@@ -6,6 +6,7 @@ import mysql from 'mysql'
 import { db, dbName } from '../config'
 import fs from 'fs'
 import path from 'path'
+import { NOTINITIALIZED } from 'dns';
 let pool;
 
 
@@ -15,16 +16,15 @@ const sqlContent = fs.readFileSync(path.resolve(__dirname,'..','./sql/yxr_blog.s
 // 并将数据库文件执行，执行完毕后yxr_blog数据库就有了相应的表和数据了
 const init = mysql.createConnection(db)
 init.connect()
+
 init.query('CREATE DATABASE yxr_blog',err=>{
     Object.assign(db,dbName)
     // 第二次连接数据库，这时候数据库yxr_blog已经创建成功了，这时候直接连接yxr_blog数据库
     // 然后执行sql文件夹下的yxr_blog.sql文件，对应的表和测试的数据就已经存在数据库里面了
     pool = mysql.createPool(db)
     if(err){
-        console.log(err);
-        
+        // console.log(err);
         console.log('yxr_blog Database created already');
-        
     }else{
         console.log('create yxr_blog Database');
         // 将yxr_blog.sql文件执行

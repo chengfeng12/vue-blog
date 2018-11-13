@@ -9,6 +9,6 @@ export const db = {
 export const dbName = {
     database:'yxr_blog'
 }
-export const base_API = 'api/'
+export const base_API = '/api'
 
 export const secret = 'yxr_blog'
