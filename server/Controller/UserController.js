@@ -10,6 +10,7 @@ export default {
 import User from '../model/UserModel'
 import md5 from 'md5'
 import creatToken from '../utils/createToken'
+
 class UserController {
     // 登录的处理逻辑在这里
     async login(ctx){
@@ -25,8 +26,8 @@ class UserController {
         // 所有的数据库操作，我们不在控制器里面完成，我们直接在数据库里进封装一个方法
         // 检查用户名密码是否正确
         const res = (await User.getUserByName(user))[0];
-        console.log(res);
-        console.log(md5(password));
+        // console.log(res);
+        // console.log(md5(password));
         
         if(res){
             // 如果存在，检查密码是否正确
@@ -50,6 +51,13 @@ class UserController {
                 success: false,
                 message: '用户名不存在，请从新填写....',
             }
+        }
+    }
+    async logout (ctx) {
+        // console.log(ctx.request.body);
+        ctx.body = {
+            success:true,
+            message:'退出成功'
         }
     }
 }

@@ -60,7 +60,7 @@ export default {
         // 登录方法
         login:function () {
             // 首先拿到验证成功失败的结果，如果成功了在进行登录，如果失败，则进行消息提示
-            console.log(this.errors.items);
+            // console.log(this.errors.items);
             if(this.errors.items.length === 0) {
                 // console.log('全部成功');
                 request({
@@ -68,7 +68,7 @@ export default {
                     method:'post',
                     data:this.LoginForm
                 }).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     if(res.success){
                         this.$notify({
                             type:'warn',

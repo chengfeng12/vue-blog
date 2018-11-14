@@ -1,8 +1,14 @@
 import Router from 'koa-router'
 import { base_API } from "../config"
+
+
 //引入登录注册的控制器
 import UserController from '../Controller/UserController'
 const router = new Router()
+
+// 引入登出的checkToken
+import checkToken from '../utils/checkToken'
+
 router.get('/',async ctx=>{
     ctx.body = '换用使用vue-blog接口测试服务器！！！'
 })
@@ -13,4 +19,7 @@ router.prefix(`${base_API}`)
 
 // 登录逻辑
 router.post('/login',UserController.login);
+// 退出逻辑
+// 只要登陆后才能看到的内容都需要验证一下token的合法性
+router.get('/logout',checkToken,UserController.logout);
 export default router
