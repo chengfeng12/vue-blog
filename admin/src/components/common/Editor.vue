@@ -1,34 +1,57 @@
 <template>
     <div class="editor">
-        <!-- <input type="text" class="title" id="title" v-model="title" @input="autoSave">
-        <div class="operate-bar" v-show="id && $route.path === '/lists'">
+        <!--  v-model="title" @input="autoSave" -->
+        <input type="text" class="title" id="title">
+        <!--  v-show="id && $route.path === '/lists'" -->
+        <div class="operate-bar">
             <section class="tag-container">
                 <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-huiyuanbiaoqian"></use>
+                    <use xlink:href="#icon-biaoqian"></use>
                 </svg>
                 <ul class="tags">
-                    <li v-for="tag, index in tags" class="tag" :key="index">{{ tag }}
-                        <sup @click="deleteTag(index)">x</sup>
+                    <!-- v-for="tag, index in tags" :key="index"  -->
+                    <li class="tag"><!-- {{ tag }} -->
+                        <!--  @click="deleteTag(index)" -->
+                        <sup>x</sup>
                     </li>
                 </ul>
-                <input type="text" class="tag-input" id="tag-input" v-if="inputNow" @keyup.enter="toggleInput" @change="autoSave">
-                <span class="tag-add" @click="toggleInput" v-else>+</span>
+                <!--  v-if="inputNow" @keyup.enter="toggleInput" @change="autoSave" -->
+                <input type="text" class="tag-input" id="tag-input">
+                <!-- @click="toggleInput" v-else -->
+                <span class="tag-add" >+</span>
             </section>
             <section class="btn-container">
-                <button id="delete" class="delete" @click="deleteArticle">删除文章</button>
-                <button id="submit" class="not-del" @click="publishArticle">发布文章</button>
+                <!-- @click="deleteArticle" -->
+                <button id="delete" class="delete" >删除文章</button>
+                <!--  @click="publishArticle" -->
+                <button id="submit" class="not-del">发布文章</button>
             </section>
         </div>
-        <p class="tips" v-if="$route.path !== '/lists'">标签查询页面只能批量更改标签，修改的文章内容会自动保存。</p>
+        <!--  v-if="$route.path !== '/lists'" -->
+        <p class="tips">标签查询页面只能批量更改标签，修改的文章内容会自动保存。</p>
         <div class="content">
             <textarea></textarea>
-        </div> -->
+        </div>
     </div>
 </template>
 
 <script>
+import 'simplemde/dist/simplemde.min.css'
+import SimpleMDE from 'simplemde'
 export default {
-
+    name:"Editor",
+    data(){
+        return {
+            simplemde:''
+        }
+    },
+    mounted(){
+        this.simplemde = new SimpleMDE({
+            placeholder:'Talk to me , what are you say...',
+            spellChecker:false,
+            toolbarTips: false,
+        })
+    }
 }
 </script>
 
@@ -54,8 +77,8 @@ export default {
     .tag-container {
         @include flex($justify: flex-start);
         .icon {
-            width: 1.5em;
-            height: 1.5em;
+            width: 1.2em;
+            height: 1.2em;
             margin-right: 10px;
         }
         .tags {

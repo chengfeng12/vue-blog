@@ -14,7 +14,7 @@
         </router-link>
         <router-link to="/readinglists" class="link">
             <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-icons64x6481"></use>
+                <use xlink:href="#icon-yuedu"></use>
             </svg>
             <p class="descript">阅读</p>
         </router-link>

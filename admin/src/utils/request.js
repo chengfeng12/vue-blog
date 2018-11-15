@@ -37,6 +37,7 @@ service.interceptors.response.use(
     }
   },
   error => {
+    // 抛给了前端的拦截器，服务器报出来的错误，都会被前端这个位置接收到，这个位置会打印这些错误信息，党鞭进行调试    
     console.log('err' + error) // for debug
     return Promise.reject(error)
   }
