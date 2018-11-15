@@ -9,6 +9,8 @@ const router = new Router()
 // 引入登出的checkToken
 import checkToken from '../utils/checkToken'
 
+// 文章相关的控制器
+import ArticleController from '../Controller/ArticleController'
 router.get('/',async ctx=>{
     ctx.body = '换用使用vue-blog接口测试服务器！！！'
 })
@@ -22,4 +24,7 @@ router.post('/login',UserController.login);
 // 退出逻辑
 // 只要登陆后才能看到的内容都需要验证一下token的合法性
 router.get('/logout',checkToken,UserController.logout);
+
+// 获取所有的文章
+router.get('/articles',checkToken,ArticleController.getArticles)
 export default router

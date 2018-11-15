@@ -1,27 +1,33 @@
 <template>
     <ul class="list">
-        <!-- <li class="article">
+        <li class="article">
             <header></header>
             <p></p>
-        </li> -->
+        </li>
     </ul>
 </template>
 
 <script>
 import request from '@/utils/request'
 export default {
-   /*  methods:{
-        logout () {
-            request({
-                url:'/logout',
-                method:'get'
-            }).then(res=>{
-                console.log(res);
-            }).catch(err=>{
-                console.log(err);
-            })
+    name:"ArticleList",
+    data:function () {
+        return {
+            articleList:[]
         }
-    } */
+    },
+    // 当该组件创建的时候自动执行里面的请求
+    mounted(){
+        request({
+            method:'get',
+            url:"/articles"
+        }).then(res=>{
+            this.articleList.push(...res);
+            console.log(this.articleList);
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
 }
 </script>
 
