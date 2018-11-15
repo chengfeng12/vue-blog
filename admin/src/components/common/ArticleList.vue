@@ -1,10 +1,12 @@
 <template>
-    <ul class="list">
-        <li class="article" :class="{active:activeIndex === index,published:isPublished === 1}" v-for="{title,createTime,isPublished,isChosen},index in articleList">
-            <header>{{title}}</header>
-            <p>{{createTime}}</p>
-        </li>
-    </ul>
+    <div>
+        <ul class="list">
+            <li class="article" :class="{active:activeIndex === index,published:isPublished === 1}" v-for="{title,createTime,isPublished,isChosen},index in articleList" @click="select(index)">
+                <header>{{title}}</header>
+                <p>{{createTime}}</p>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
@@ -20,9 +22,8 @@ export default {
         }
     },
     // 把全局的vuex里面的state和mutations放在计算属性中
-    componend:{
-        ...mapState(['id','title','tags','content','isPulished','toggleDelete']),
-        ...mapMutations(['SET_CURRENT_ARTICLE'])
+    computed:{
+        ...mapState(['id','title','tags','content','isPublished'])
     },
     // 当该组件创建的时候自动执行里面的请求
     created(){
@@ -37,7 +38,12 @@ export default {
                 article.isChosen = true
             }
             this.articleList.push(...res);
-            console.log(this.articleList);
+            // 如果查询文章，则将第一篇文章作为正在编辑的文章
+            if(this.articleList.legth !== 0){
+                this.SET_CURRENT_ARTICLE(this.articleList[0]);
+                this.activeIndex = 0;
+            }
+            // console.log(this.articleList);
         }).catch(err=>{
             console.log(err);
         })
@@ -51,11 +57,19 @@ export default {
                 const article = res[0];
                 article.createTime = moment(article.createTime).format('YYYY年-MM月-DD日 HH-mm-ss')
                 article.isChosen = true;
-                this.articleList.unshift(article)
+                this.articleList.unshift(article);
+                // 如果发布新文章的话，当前被传中的文章下标自动加1
+                this.activeIndex++;
             }).catch(err=>{
                 console.log(err);
             })
-        }
+        },
+        select (index) {
+            this.activeIndex = index;
+            // 当在选择文章的时候，当前选中的文章扔到全局状态管理里面
+                this.SET_CURRENT_ARTICLE(this.articleList[index])
+        },
+        ...mapMutations(['SET_CURRENT_ARTICLE'])
     }
 }
 </script>

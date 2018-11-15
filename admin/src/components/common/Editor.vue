@@ -1,7 +1,7 @@
 <template>
     <div class="editor">
         <!--  v-model="title" @input="autoSave" -->
-        <input type="text" class="title" id="title">
+        <input type="text" class="title" id="title" v-model="title">
         <!--  v-show="id && $route.path === '/lists'" -->
         <div class="operate-bar">
             <section class="tag-container">
@@ -9,8 +9,7 @@
                     <use xlink:href="#icon-biaoqian"></use>
                 </svg>
                 <ul class="tags">
-                    <!-- v-for="tag, index in tags" :key="index"  -->
-                    <li class="tag"><!-- {{ tag }} -->
+                    <li class="tag" v-for="(tag, index) in tags" :key="index">{{tag}}
                         <!--  @click="deleteTag(index)" -->
                         <sup>x</sup>
                     </li>
@@ -32,25 +31,33 @@
         <div class="content">
             <textarea></textarea>
         </div>
+        {{tags}}
     </div>
 </template>
 
 <script>
 import 'simplemde/dist/simplemde.min.css'
 import SimpleMDE from 'simplemde'
+import { mapState } from 'vuex'
 export default {
     name:"Editor",
     data(){
         return {
-            simplemde:''
+            simplemde:'', // 编辑器
+            tags:''
         }
     },
+    computed:{
+        ...mapState(['id','title','content','isPublished'])
+    },
     mounted(){
+        thsi.tags = this.$store.getters.getTags
         this.simplemde = new SimpleMDE({
             placeholder:'Talk to me , what are you say...',
             spellChecker:false,
             toolbarTips: false,
-        })
+        });
+        // 将vuex里面的正在编辑文章的相关信息输出到编辑器里面
     }
 }
 </script>

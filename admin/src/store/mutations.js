@@ -6,12 +6,12 @@ const mutations = {
         state.username = username
     },
     // 设置当前正在编辑的文章，将它放到Vuex中
-    SET_CURRENT_ARTICLE:(state,{id,title,tages,contneet,isPubished})=>{
+    SET_CURRENT_ARTICLE:(state,{id,title,tags,content,isPublished})=>{
         state.id = id
         state.title = title
         state.tags = tags  
-        state.content = contnet  
-        state.isPubished = isPubished        
+        state.content = content  
+        state.isPublished = isPublished        
     },
     // 设置当前文章是否删除
     SET_DELETE_ARTICLE:(state)=>{
