@@ -1,9 +1,14 @@
+
 const getters = {
     // 把tags字符串切成数组返回    
     getTags:state=>{
-        if(tags.length !== 0){
+        if(state.tags.length !== 0){
             return state.tags.split(',')
         }
-    }
+        return []
+    },
+    // getContent:state=>{
+    //     return state.content
+    // }
 }
 export default getters
