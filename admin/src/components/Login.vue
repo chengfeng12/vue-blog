@@ -1,9 +1,7 @@
 <template>
     <div class="login-container">
-        <!-- <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-liebiao"></use>
-        </svg> -->
         <header class="login-head">
+            <!-- <i class=""></i> -->
             <span>yxr博客系统</span>
             <img class="logo" src="../assets/image/logo.png" alt="login">
         </header>
@@ -127,6 +125,8 @@ export default {
 @import "../assets/style/variable";
 .login-container {
     height: 100%;
+    // background-color: $base;
+    // overflow: hidden;
     @include flex($flow: column wrap);
     font-family: "KaiShu", "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
     .login-head {

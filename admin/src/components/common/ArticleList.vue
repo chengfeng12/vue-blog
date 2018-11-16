@@ -66,8 +66,9 @@ export default {
         },
         select (index) {
             this.activeIndex = index;
+            // this.isPublished = -1;
             // 当在选择文章的时候，当前选中的文章扔到全局状态管理里面
-                this.SET_CURRENT_ARTICLE(this.articleList[index])
+            this.SET_CURRENT_ARTICLE(this.articleList[index])
         },
         ...mapMutations(['SET_CURRENT_ARTICLE'])
     }
@@ -85,6 +86,7 @@ export default {
     background: $white;
     border: 0.1em solid $special;
     cursor: pointer;
+    transition: all .5s;
     header {
         max-width: 100%;
         font-size: 1.3rem;
@@ -101,7 +103,11 @@ export default {
         margin-bottom: 0;
     }
 }
-
+.article:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 0 3px #eee;
+    border: 1px solid $base;
+}
 .active {
     border: 1px solid $base;
 }

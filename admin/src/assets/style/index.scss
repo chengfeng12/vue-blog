@@ -22,7 +22,7 @@ body {
     margin: 0;
     height: 100%;
     min-width: 1024px;
-    min-height: 900px;
+    min-height: 700px;
 }
 
 body * {
@@ -99,9 +99,11 @@ a {
     }
     .delete {
         margin-right: 10px;
-        color: $word;
-        border: 1px solid $word;
+        color: $white;
+        background: $base;
+        border: 1px solid $base;
         &:hover {
+            background: $white;
             color: $base;
             border: 1px solid $base;
         }

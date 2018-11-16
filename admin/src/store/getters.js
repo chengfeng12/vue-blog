@@ -7,8 +7,8 @@ const getters = {
         }
         return []
     },
-    // getContent:state=>{
-    //     return state.content
-    // }
+    getTitle:state=>{
+        return state.title
+    }
 }
 export default getters

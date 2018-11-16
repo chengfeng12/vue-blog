@@ -1,7 +1,7 @@
 <template>
     <nav class="head-nav">
         <div class="logo-container">
-            <img src="../../assets/image/logo.png" alt="" class="logo">
+            <img src="../../assets/image/logo.png" alt="" class="logo"  title="yxr博客">
         </div>
         <div class="content-container">
             <section>
@@ -55,16 +55,20 @@ export default {
         width: 3em;
         height: inherit;
         border-bottom: 2px solid $word;
+        padding-left: 20px;
     }
     .content-container {
         @include flex($justify: space-between);
-        padding: 0.5em;
+        padding: 0.5em 1em;
         height: 100%;
         width: calc(100% - 50px);
         border-bottom: 2px solid $base;
         .log-out {
             @include flex;
             color: $word;
+            &:hover {
+                color: $base;
+            }
         }
     }
 

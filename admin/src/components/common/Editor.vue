@@ -1,76 +1,81 @@
 <template>
     <div class="editor">
-        <!--  v-model="title" @input="autoSave" -->
-        <input type="text" class="title" id="title" v-model="title">
-        {{title}}
-        <!--  v-show="id && $route.path === '/lists'" -->
+        <input type="text" class="title" id="title" v-model="title" @input="autosave">
         <div class="operate-bar">
             <section class="tag-container">
-                <svg class="icon" aria-hidden="true">
+                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-biaoqian"></use>
                 </svg>
                 <ul class="tags">
-                    <li class="tag" v-for="(tag, index) in getTags" :key="index">
+                    <li class="tag" v-for="(tag,index) in getTags" :key="index">
                         {{tag}}
-                        <!--  @click="deleteTag(index)" -->
-                        <sup>x</sup>
+                        <sup> x </sup>
                     </li>
                 </ul>
-                <!--  v-if="inputNow" @keyup.enter="toggleInput" @change="autoSave" -->
-                <input type="text" class="tag-input" id="tag-input">
-                <!-- @click="toggleInput" v-else -->
-                <span class="tag-add" >+</span>
+                <input type="text" class="tag-input" id="tag-input" @change='autosave'>
+                <span class="tag-add">+</span>
             </section>
             <section class="btn-container">
-                <!-- @click="deleteArticle" -->
-                <button id="delete" class="delete" >删除文章</button>
-                <!--  @click="publishArticle" -->
-                <button id="submit" class="not-del">发布文章</button>
+                <button id="delete" class="delete">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-shanchu"></use>
+                    </svg>
+                    <span>删除文章</span>
+                </button>
+                <button id="submit" class="not-del">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-article"></use>
+                    </svg>
+                    <span>发布文章</span>
+                </button>
             </section>
         </div>
-        <!--  v-if="$route.path !== '/lists'" -->
-        <p class="tips">标签查询页面只能批量更改标签，修改的文章内容会自动保存。</p>
+        <p class="tips">标签查询页面只能批量更改标签 修改的文章内容会自动保存</p>
         <div class="content">
             <textarea></textarea>
         </div>
-        <!-- {{tags}} -->
     </div>
 </template>
 
 <script>
+// 引入编辑器
 import 'simplemde/dist/simplemde.min.css'
 import SimpleMDE from 'simplemde'
 import { mapState, mapGetters } from 'vuex'
 export default {
-    name:"Editor",
-    data(){
+    name:'Editor',
+    data() {
         return {
-            simplemde:'', // 编辑器
+            simplemde:'',//编辑器
         }
     },
     computed:{
         ...mapState(['id','title','content','isPublished']),
-        ...mapGetters(['getTags'])
+        ...mapGetters(['getTags']),
     },
-    mounted(){        
+    mounted() {
         this.simplemde = new SimpleMDE({
-            placeholder:'Talk to me , what are you say...',
+            placeholder:'talk to me,what are you say..',
             spellChecker:false,
-            toolbarTips: false,
+            toolbarTips:false
         });
-        // 将vuex里面的正在编辑文章的相关信息输出到编辑器里面
-        // console.log(this.content);
+        // 将vuex里面的正在编辑的文章的相关信息输出到编辑器里面去
+            this.simplemde.value(this.content)
+            // 绑定编辑器的按键事件以及复制 粘贴的事件发生
+            this.simplemde.codemirror.on('keyHandle',()=>this.autosave())
+            this.simplemde.codemirror.on('inputRead',()=>this.autosave())
     },
-    // 监控ID值的变化，如果一旦发生变化，就直接将内容变化
+    // 监控ID值的变化 如果一旦发生变化 就直接将内容变化
     watch:{
         id(newVal,oldVal){
-            console.log(this.title);
-            // this.SET_CURRENT_ARTICLE(title);
             this.simplemde.value(this.content)
         }
     },
     methods:{
-        
+        autosave(){
+            // 自动保存功能
+
+        }
     }
 }
 </script>
@@ -128,11 +133,18 @@ export default {
     }
 }
 .tips {
-    color: $quote;
+    color: $base;
     text-align: center;
+    font-size: 1.2em;
 }
 .content {
     font-size: 1.6rem;
 }
+// .btn-container {
+//     .delete {
+//         color: #fff;
+//         background-color: $base;
+//     }
+// }
 </style>
 

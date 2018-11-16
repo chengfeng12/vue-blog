@@ -10,7 +10,12 @@
             <main>
                 <div class="article-list">
                     <section class="btn-container">
-                        <button id="add" class="not-del" @click="AddArticle">新文章</button>
+                        <button id="add" class="not-del" @click="AddArticle">
+                          <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-article"></use>
+                          </svg>
+                          <span>新文章</span>
+                        </button>
                     </section>
                     <!-- 文章列表的组件 -->
                     <article-list ref="articleList"></article-list>
