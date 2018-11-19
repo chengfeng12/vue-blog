@@ -5,6 +5,18 @@ const mutations = {
     SET_USERNAME:(state,username)=>{
         state.username = username
     },
+    // 设置改变title的方法
+    SET_TITLE:(state,title)=>{
+        state.title = title
+    },
+    // 设置改变tags的方法
+    SET_TAGS:(sate,tags)=>{
+        state.tags = tags
+    },
+    // 设置改变content的方法
+    SET_CONTENT:(sate,centent)=>{
+        state.centent = centent
+    },
     // 设置当前正在编辑的文章，将它放到Vuex中
     SET_CURRENT_ARTICLE:(state,{id,title,tags,content,isPublished})=>{
         state.id = id

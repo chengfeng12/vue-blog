@@ -19,8 +19,12 @@ router.get('/',async ctx=>{
 // 所有的路由直接写在这里
 router.prefix(`${base_API}`)
 
+// 注册逻辑
+router.post('/regist',UserController.regist)
+
 // 登录逻辑
 router.post('/login',UserController.login);
+
 // 退出逻辑
 // 只要登陆后才能看到的内容都需要验证一下token的合法性
 router.get('/logout',checkToken,UserController.logout);
@@ -33,5 +37,8 @@ router.post('/articles/add',checkToken,ArticleController.addArticle)
 
 // 把最新添加的新文章的详细信息
 router.get('/articles/:id',checkToken,ArticleController.getOneArticle)
+
+//更新一篇新的文章
+router.post('/articles/update/:id',checkToken,ArticleController.updateArticle)
 
 export default router

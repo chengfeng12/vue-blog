@@ -9,11 +9,11 @@
                 <ul class="tags">
                     <li class="tag" v-for="(tag,index) in getTags" :key="index">
                         {{tag}}
-                        <sup> x </sup>
+                        <sup @click="deleteTag(index)"> x </sup>
                     </li>
                 </ul>
-                <input type="text" class="tag-input" id="tag-input" @change='autosave'>
-                <span class="tag-add">+</span>
+                <input type="text" class="tag-input" id="tag-input" @change='autosave' @keydown="addTag">
+                <span class="tag-add" @click="addTag">+</span>
             </section>
             <section class="btn-container">
                 <button id="delete" class="delete">
@@ -42,6 +42,8 @@
 import 'simplemde/dist/simplemde.min.css'
 import SimpleMDE from 'simplemde'
 import { mapState, mapGetters } from 'vuex'
+// 引入debounce方法
+import debounce from 'lodash.debounce'
 export default {
     name:'Editor',
     data() {
@@ -50,8 +52,17 @@ export default {
         }
     },
     computed:{
-        ...mapState(['id','title','content','isPublished']),
+        ...mapState(['id','tags','content','isPublished']),
         ...mapGetters(['getTags']),
+         // 因为这个title是数据双向绑定 因此 它可能会被改变 如果我们直接从mapState中读取它的话 那么如果改变title的话 又因为它没有setter的话 就会导致无法直接改变state中的title
+        title:{
+            get(){
+                return this.$store.state.title
+            },
+            set(value){
+                this.$store.commit('SET_TITLE',value)
+            }
+        }
     },
     mounted() {
         this.simplemde = new SimpleMDE({
@@ -71,9 +82,26 @@ export default {
             this.simplemde.value(this.content)
         }
     },
-    methods:{
-        autosave(){
-            // 自动保存功能
+     methods:{
+        //避免发请求的次数过多....
+        autosave:debounce(function(){
+            if(this.id){
+                this.$store.dispatch('saveArticle',{
+                    id:this.id,
+                    title:this.title,
+                    tags:this.getTags.join(','),
+                    content:this.simplemde.value(),
+                    isPublished:this.isPublished
+                })
+            }
+        },1000),
+        // 删除标签
+        deleteTag(index){
+            this.getTags.splice(index,1);
+            this.autosave();
+        },
+        // 添加标签
+        addTag(){
 
         }
     }

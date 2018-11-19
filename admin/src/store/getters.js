@@ -6,9 +6,6 @@ const getters = {
             return state.tags.split(',')
         }
         return []
-    },
-    getTitle:state=>{
-        return state.title
     }
 }
 export default getters

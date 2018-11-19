@@ -12,8 +12,11 @@
             </span>
             <input name="user" v-validate="'required|min:4|max:16|alpha_dash'" type="text" id="use" placeholder="请输入用户名" v-model="LoginForm.user">
             <!-- alpha_num 可以包含英文和数字 -->
-            <input name="password" v-validate="'required|max:12'" type="password" id="password" placeholder="名输入密码" v-model="LoginForm.password" @keydown.enter="login">
-            <button id="login" @click="login">登录</button>
+            <input name="password" v-validate="'required|min:6||max:16'" type="password" id="password" placeholder="名输入密码" v-model="LoginForm.password" @keydown.enter="login">
+            <div>
+                <button id="login" @click="login">登录</button>
+                <button id="regist" @click="regist">注册</button>
+            </div>
         </section>
         <footer>Always</footer>
         <notifications group="user"></notifications>
@@ -103,6 +106,9 @@ export default {
                     text: this.errors.items[0].msg
                 })
             }
+        },
+        regist () {
+            this.$router.push('/regist')
         }
     },
     // 钩子函数，当组件加载完毕之后自动执行
@@ -164,18 +170,21 @@ export default {
             border-radius: 3px;
             border: 1px solid #ccc;
         }
-        button {
-            color: $white;
-            font: {
-                size: 1.6rem;
-                family: KaiShu, Arial, sans-serif;
+        div {
+            button {
+                color: $white;
+                font: {
+                    size: 1.6rem;
+                    family: KaiShu, Arial, sans-serif;
+                }
+                width: 6em;
+                height: 2em;
+                border: none;
+                background: $base;
+                margin:  .4em;
+                outline: none;
+                cursor: pointer;
             }
-            width: 6em;
-            height: 2em;
-            border: none;
-            background: $base;
-            outline: none;
-            cursor: pointer;
         }
     }
     footer {

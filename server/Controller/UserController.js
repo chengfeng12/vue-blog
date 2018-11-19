@@ -10,10 +10,34 @@ export default {
 import User from '../model/UserModel'
 import md5 from 'md5'
 import creatToken from '../utils/createToken'
-
+let regUser = /^[\w]{4,16}$/;
+let regPassword = /^[\w]{6,16}$/;
 class UserController {
+    // 注册逻辑
+    async regist(ctx) {
+        // 检查用户名和密码格式是否正确
+        let user = ctx.request.body.user;
+        let password = ctx.request.body.password;
+        if(regUser.test(user)&&regPassword.test(password)){
+            console.log('格式正确');
+            // 格式正确的话，则查询数据库里面是否存在改用户
+            const res = await User.getUserByName(user);
+            console.log(res); 
+            if(res){
+                ctx.body = {
+                    success: false,
+                    msg: '账户已存在'
+                }
+            }else{
+                
+            }
+        }else{
+            console.log('格式不正确');
+        }
+        console.log(ctx.request.body)
+    }
     // 登录的处理逻辑在这里
-    async login(ctx){
+    async login(ctx) {
         // 验证用户名密码是否合法
 
         // 验证省略
