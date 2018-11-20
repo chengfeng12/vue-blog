@@ -23,18 +23,25 @@ class UserController {
             // 格式正确的话，则查询数据库里面是否存在改用户
             const res = await User.getUserByName(user);
             console.log(res); 
-            if(res){
+            if(res.length !== 0){
                 ctx.body = {
                     success: false,
                     msg: '账户已存在'
                 }
             }else{
-                
+                password = md5(password);
+                // const res = await User.addUser(user,password)
+                ctx.body = res
+                ctx.body = {
+                    success: true,
+                    msg: '注册成功,3s后自动跳转',
+                    data: res
+                }
             }
         }else{
             console.log('格式不正确');
         }
-        console.log(ctx.request.body)
+        // console.log(ctx.request.body)
     }
     // 登录的处理逻辑在这里
     async login(ctx) {

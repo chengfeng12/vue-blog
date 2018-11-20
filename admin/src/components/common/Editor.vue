@@ -12,8 +12,8 @@
                         <sup @click="deleteTag(index)"> x </sup>
                     </li>
                 </ul>
-                <input type="text" class="tag-input" id="tag-input" @change='autosave' @keydown="addTag">
-                <span class="tag-add" @click="addTag">+</span>
+                <input v-if="showTags" type="text" class="tag-input" id="tag-input" @keydown.enter="addTag">
+                <span v-else class="tag-add" @click="addTag">+</span>
             </section>
             <section class="btn-container">
                 <button id="delete" class="delete">
@@ -48,6 +48,7 @@ export default {
     name:'Editor',
     data() {
         return {
+            showTags: false,
             simplemde:'',//编辑器
         }
     },
@@ -60,7 +61,8 @@ export default {
                 return this.$store.state.title
             },
             set(value){
-                this.$store.commit('SET_TITLE',value)
+                console.log(value);
+                this.$store.commit('SET_TITLE',value);
             }
         }
     },
@@ -82,7 +84,7 @@ export default {
             this.simplemde.value(this.content)
         }
     },
-     methods:{
+    methods:{
         //避免发请求的次数过多....
         autosave:debounce(function(){
             if(this.id){
@@ -102,7 +104,15 @@ export default {
         },
         // 添加标签
         addTag(){
-
+            // input显示的时候，会执行这个
+            if(this.showTags){
+                const newTag = document.querySelector('#tag-input').value
+                this.getTags.push(newTag);
+                // 每次按下enter键的时候自动保存
+                this.autosave();
+            }
+            // 只是一个单纯的切换功能，第一点击+号的时候会显示input表单，按enter键会隐藏
+            this.showTags = !this.showTags
         }
     }
 }

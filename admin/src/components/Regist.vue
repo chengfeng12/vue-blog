@@ -22,6 +22,10 @@
             </div>
         </section>
         <footer>Always</footer>
+        <div class="eject" :class="{scaleBig:data.warning}">
+            <span @click="data.warning = !data.warning">x</span>
+            <p>{{data.msg}}</p>
+        </div>
         <!-- <notifications group="user"></notifications>
         <notifications group="admin"></notifications> -->
         <!-- <notifications group="admin"></notifications> -->
@@ -48,7 +52,9 @@ export default {
                 userMessage:'',
                 passwordMessage:'',
                 twopasswordMessage:'',
-                regular:false
+                regular:false,
+                warning:false,
+                msg:''
             },
             RegistForm:{
                 user:'',
@@ -81,27 +87,20 @@ export default {
             }else if(!this.regular.password.test(this.RegistForm.password)){
                 this.data.regular = false;              
                 this.data.passwordMessage = '密码格式输入错误'
-            }else if(this.RegistForm.password == this.RegistForm.twopassword) {
-                this.data.passwordMessage = '';
-                this.data.twopasswordMessage = '';
-                this.data.regular = true;
-            }else if(this.RegistForm.password !== this.RegistForm.twopassword) {
-                this.data.twopasswordMessage = '两次密码不一致';
-                this.data.regular = false;
             }else{
                 this.data.passwordMessage = '';          
                 this.data.regular = true;
             }
         },
         twoPasswordBlur () {
-            if (this.RegistForm.twopassword.length == 0) {
+            if(this.RegistForm.password.length == 0) {
                 this.data.regular = false;
                 this.data.twopasswordMessage = '密码不能为空'
             }else if(this.RegistForm.password !== this.RegistForm.twopassword) {
                 this.data.twopasswordMessage = '两次密码不一致';
                 this.data.regular = false;
             }else{
-                this.data.twopasswordMessage = '';
+                this.data.twopasswordMessage = '';          
                 this.data.regular = true;
             }
         },
@@ -120,28 +119,41 @@ export default {
                         password: this.RegistForm.password
                     }
                 }).then(res=>{
-                    console.log('接收成功');
-                    
+                    // console.log('接收成功');
+                    console.log(res);
+                    if(res.success){
+                        this.data.warning = true;
+                        this.data.msg = res.msg;
+                        setTimeout(function(){
+                            console.log('我是跳转的内容');
+                            console.log(this);
+                            
+                            // this.$router.push('/login');
+                        },3000)
+                    }else{
+                        this.data.warning = true;
+                        this.data.msg = res.msg;                        
+                    }
                 }).catch(err=>{
                     console.log('接收失败');
                 })
             }else{
                 console.log('注册失败');
+                if(this.RegistForm.user.length == 0) {
+                    this.data.regular = false;
+                    this.data.userMessage = '用户名不能为空'
+                }
+                if(this.RegistForm.password.length == 0) {
+                    this.data.regular = false;
+                    this.data.passwordMessage = '密码不能为空'
+                }
+                if(this.RegistForm.password.length == 0) {
+                    this.data.regular = false;
+                    this.data.twopasswordMessage = '密码不能为空'
+                }
             }
         }
     },
-    // 钩子函数，当组件加载完毕之后自动执行
-    // mounted:function () {
-    //     request({
-    //         url:'/test',
-    //         method:"post",
-    //         data: {
-    //             a: 'a'
-    //         }
-    //     }).then(({data})=>{
-    //         console.log(data);
-    //     })
-    // }
 }
 </script>
 
@@ -217,6 +229,38 @@ export default {
         height: 4em;
         @include flex;
         justify-self: flex-end;
+    }
+    .eject {
+        position: relative;
+        width: 200px;
+        height: 110px;
+        background-color: #fff;
+        box-shadow: 0px 2px 4px #aaa;
+        top: -250px;
+        transform: scale(0);
+        transition: all .2s;
+        p {
+            text-align: center;
+            // position: absolute;
+            font-size: 20px;
+            color: $base;
+            margin: 40px 0;
+        }
+        span {
+            font-size: 20px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            cursor: pointer;           
+        }
+    }
+    .scaleBig {
+        transform: scale(1.2);
     }
 }
 </style>
