@@ -13,6 +13,12 @@ class ArticleModel {
     }
     async updateArticle(id,{title,tags,content,isPublished}){
         return await query(eacaep`UPDATE ARTICLE SET title=${title},tags=${tags},content=${content} WHERE id=${id}`)
-    } 
+    }
+    async deleteArticle(id){
+        return await query(eacaep`DELETE FROM ARTICLE WHERE id=${id}`)
+    }
+    async publishArticle(id){
+        return await query(eacaep`UPDATE ARTICLE SET publishTime=NOW(), isPublished=1 WHERE id=${id}`)
+    }
 }
 export default new ArticleModel()

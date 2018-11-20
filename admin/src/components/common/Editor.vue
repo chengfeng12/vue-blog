@@ -20,13 +20,13 @@
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-shanchu"></use>
                     </svg>
-                    <span>删除文章</span>
+                    <span @click="deleteArticle">删除文章</span>
                 </button>
                 <button id="submit" class="not-del">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-article"></use>
                     </svg>
-                    <span>发布文章</span>
+                    <span @click="publishArticle">发布文章</span>
                 </button>
             </section>
         </div>
@@ -41,7 +41,10 @@
 // 引入编辑器
 import 'simplemde/dist/simplemde.min.css'
 import SimpleMDE from 'simplemde'
+// 引入全局的数据
 import { mapState, mapGetters } from 'vuex'
+//引入request发请求
+import request from '@/utils/request'
 // 引入debounce方法
 import debounce from 'lodash.debounce'
 export default {
@@ -107,12 +110,43 @@ export default {
             // input显示的时候，会执行这个
             if(this.showTags){
                 const newTag = document.querySelector('#tag-input').value
-                this.getTags.push(newTag);
-                // 每次按下enter键的时候自动保存
-                this.autosave();
+                if(newTag && this.getTags.indexOf(newTag) === -1){
+                    this.getTags.push(newTag);
+                    // 每次按下enter键的时候自动保存
+                    this.autosave();
+                }
             }
             // 只是一个单纯的切换功能，第一点击+号的时候会显示input表单，按enter键会隐藏
             this.showTags = !this.showTags
+        },
+        // 删除文章
+        deleteArticle(){
+            request({
+                url:`/articles/${this.id}`,
+                method:'delete',
+                data:{}
+            }).then(res=>{
+                // 删除之后需要更新视图，让全局中的数据为空
+                this.$store.commit('SET_DELETE_ARTICLE')
+            }).catch(err=>{
+                console.log(err);
+            })
+        },
+        //发布文章
+        publishArticle(){
+            if(!this.isPublished){
+                request({
+                    url:`/articles/publish/${this.id}`,
+                    method:'put',
+                    date:{}
+                }).then(res=>{
+                    console.log(res);
+                    this.$store.commit('SET_PUBLISH_STATE')
+                }).catch(err=>{
+                    console.log(err);
+                    
+                })
+            }
         }
     }
 }
