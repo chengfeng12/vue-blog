@@ -55,7 +55,7 @@ export default {
         method:'post',
         data:{}
       }).then(res=>{
-        console.log(res);
+        // console.log(res);
         // location.reload();
         // 获取到插入文章的id值
         const addId = res.insertId;

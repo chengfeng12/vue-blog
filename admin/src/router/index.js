@@ -9,7 +9,12 @@ import Login from '@/components/Login'
 import List from '@/components/List'
 // 引入注册组件
 import Regist from '@/components/Regist'
-
+// 引入Tag组件
+import Tag from '@/components/Tag'
+// 引入Reade组件
+import Reade from '@/components/Reading'
+// 引入关于我的组件
+import About from '@/components/About'
 export default new Router({
   routes: [
     // {
@@ -29,8 +34,20 @@ export default new Router({
         component: List
       },
       {
+        path: '/tags',
+        component: Tag
+      },
+      {
+        path: '/readinglists',
+        component: Reade
+      },
+      {
+        path: '/about',
+        component: About
+      },
+      {
         path: '*',
         redirect: '/login'
-      }
+    }
   ]
 })

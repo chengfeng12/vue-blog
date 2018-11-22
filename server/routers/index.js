@@ -11,6 +11,16 @@ import checkToken from '../utils/checkToken'
 
 // 文章相关的控制器
 import ArticleController from '../Controller/ArticleController'
+
+// 引入标签的控制器
+import TagController from '../Controller/TagController'
+
+// 书籍的控制器
+import BookController from '../Controller/BookController'
+
+// 引入关于我的控制器
+import AboutController from '../Controller/AboutController'
+
 router.get('/',async ctx=>{
     ctx.body = '换用使用vue-blog接口测试服务器！！！'
 })
@@ -46,4 +56,25 @@ router.delete('/articles/:id',checkToken,ArticleController.deleteArticle)
 
 // 发布文章
 router.put('/articles/publish/:id',checkToken,ArticleController.publishArticle)
+
+// 获取tags列表
+router.get('/getTag',checkToken,TagController.getTag)
+
+// 获取阅读的书籍
+router.get('/readingBook',checkToken,BookController.getReadBook)
+
+// 删除对应的书籍
+router.get('/deletebook/:id',checkToken,BookController.deleteBook)
+
+// 提交书籍的更改信息
+router.post('/confirmUpdata/:id',checkToken,BookController.updateBook)
+
+// 添加书籍
+router.post('/addBook',checkToken,BookController.addBook)
+
+// 查找关于我的信息
+router.get('/about',checkToken,AboutController.about)
+
+// 修改关于我的信息
+router.put('/updateAbout',checkToken,AboutController.updateAbout)
 export default router

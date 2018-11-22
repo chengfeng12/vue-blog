@@ -64,7 +64,7 @@ export default {
                 return this.$store.state.title
             },
             set(value){
-                console.log(value);
+                // console.log(value);
                 this.$store.commit('SET_TITLE',value);
             }
         }
@@ -140,11 +140,10 @@ export default {
                     method:'put',
                     date:{}
                 }).then(res=>{
-                    console.log(res);
+                    // console.log(res);
                     this.$store.commit('SET_PUBLISH_STATE')
                 }).catch(err=>{
                     console.log(err);
-                    
                 })
             }
         }

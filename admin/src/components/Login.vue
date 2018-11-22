@@ -131,8 +131,8 @@ export default {
 @import "../assets/style/variable";
 .login-container {
     height: 100%;
-    // background-color: $base;
-    // overflow: hidden;
+    background-image: url('../assets/image/loginBg.jpg');
+    background-size: 100% 100%;
     @include flex($flow: column wrap);
     font-family: "KaiShu", "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
     .login-head {
@@ -146,10 +146,12 @@ export default {
         @include flex($flow: column wrap);
         width: 400px;
         height: 250px;
-        border-top: 20px solid $base;
+        border-top: 20px solid $nav;
         border-radius: 5px;
-        // box-shadow: 4px 4px 5px -3px rgba(0, 0, 0, .3);
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+        background-image: url('../assets/image/loginBg.jpg');
+        background-size: 100% 100%;
+        // background: transparent;
         .slogan {
             font-size: 1.6rem;
             margin-bottom: 1em;

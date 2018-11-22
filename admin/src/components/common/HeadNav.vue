@@ -29,7 +29,7 @@ export default {
                 url:'/logout',
                 method:'get'
             }).then(res=>{
-                console.log(res);
+                // console.log(res);
                 if(res.success == true){
                     this.$store.commit('SET_TOKEN','');
                     removeToken(); 

@@ -1,7 +1,8 @@
 <template>
     <div>
         <ul class="list">
-            <li class="article" :class="{active:activeIndex === index,published:isPublished === 1}" v-for="({title,createTime,isPublished,isChosen},index) in articleList" :key="index" @click="select(index)">
+            <!-- ,published:isPublished === 1 -->
+            <li class="article" :class="{active:activeIndex === index}" v-for="({title,createTime,isPublished,isChosen},index) in articleList" :key="index" @click="select(index)" v-if="isChosen">
                 <header>{{title}}</header>
                 <p>{{createTime}}</p>
             </li>
@@ -28,10 +29,10 @@ export default {
     // 当该组件创建的时候自动执行里面的请求
     created(){
         request({
-            method:'get',
-            url:"/articles"
+            url:"/articles",
+            method:'get'
         }).then(res=>{
-            console.log(res);
+            // console.log(res);
             for(let article of res){
                 article.createTime = moment(article.createTime).format('YYYY年--MM月--DD日 HH:mm:ss')
                 // console.log(article.createTime);
@@ -66,7 +67,6 @@ export default {
         },
         select (index) {
             this.activeIndex = index;
-            // this.isPublished = -1;
             // 当在选择文章的时候，当前选中的文章扔到全局状态管理里面
             this.SET_CURRENT_ARTICLE(this.articleList[index])
         },
