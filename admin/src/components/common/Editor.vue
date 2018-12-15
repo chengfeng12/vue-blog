@@ -1,7 +1,7 @@
 <template>
     <div class="editor">
         <input type="text" class="title" id="title" v-model="title" @input="autosave">
-        <div class="operate-bar">
+        <div class="operate-bar" v-show="id && $route.path === '/list'">
             <section class="tag-container">
                  <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-biaoqian"></use>

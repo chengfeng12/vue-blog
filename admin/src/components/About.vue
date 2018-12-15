@@ -20,17 +20,17 @@
 </template>
 
 <script>
+// 引入头部和侧边导航组件
+import HeadNav from '@/components/common/HeadNav'
+import Aside from '@/components/common/Aside'
 // 引入编辑器
 import 'simplemde/dist/simplemde.min.css'
 import SimpleMDE from 'simplemde'
-// 引入头部和侧边导航的的组件
-import HeadNav from '@/components/common/HeadNav'
-import Aside from '@/components/common/Aside'
 // 引入请求模块
 import request from '@/utils/request'
 export default {
     name: 'About',
-    components: {
+        components: {
         HeadNav,
         Aside
     },

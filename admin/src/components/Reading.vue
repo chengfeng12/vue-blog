@@ -52,16 +52,17 @@
 </template>
 
 <script>
+import request from '@/utils/request'
+// 引入头部和侧边导航组件
 import HeadNav from '@/components/common/HeadNav'
 import Aside from '@/components/common/Aside'
-import request from '@/utils/request'
 import Star from '@/components/common/Star'
 export default {
     name: 'Reade',
     components: {
+        Star,
         HeadNav,
-        Aside,
-        Star
+        Aside
     },
     data() {
         return {
@@ -80,7 +81,7 @@ export default {
             url: '/readingBook',
             method: 'get',
         }).then(res=>{
-            console.log(res);
+            // console.log(res);
             this.books = res;
         }).catch(err=>{
             console.log(err);

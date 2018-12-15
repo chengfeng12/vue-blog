@@ -26,12 +26,6 @@
             <span @click="data.warning = !data.warning">x</span>
             <p>{{data.msg}}</p>
         </div>
-        <!-- <notifications group="user"></notifications>
-        <notifications group="admin"></notifications> -->
-        <!-- <notifications group="admin"></notifications> -->
-        <!-- <span>{{errors.first('user')}}</span>
-        <span>{{errors.first('password')}}</span>
-        <span>{{errors.first('twoPassword')}}</span>   -->
     </div>
 </template>
 

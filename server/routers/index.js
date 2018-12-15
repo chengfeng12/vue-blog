@@ -60,8 +60,16 @@ router.put('/articles/publish/:id',checkToken,ArticleController.publishArticle)
 // 获取tags列表
 router.get('/getTag',checkToken,TagController.getTag)
 
+// 更新tags列表
+router.put('/updateTag/:id',checkToken,TagController.updateTags)
+
+// 删除tags
+router.post('/deltags/:id',checkToken,TagController.deltTags)
+
 // 获取阅读的书籍
 router.get('/readingBook',checkToken,BookController.getReadBook)
+
+router.get('/readingBooks',BookController.getReadBook)
 
 // 删除对应的书籍
 router.get('/deletebook/:id',checkToken,BookController.deleteBook)
@@ -74,7 +82,18 @@ router.post('/addBook',checkToken,BookController.addBook)
 
 // 查找关于我的信息
 router.get('/about',checkToken,AboutController.about)
+router.get('/aboutNull',AboutController.about)
 
 // 修改关于我的信息
 router.put('/updateAbout',checkToken,AboutController.updateAbout)
+
+
+// 前端获取文章页面
+router.get('/getArticle',ArticleController.getArticles);
+
+// 获取一篇文章的信息
+router.get('/getArticle/:id',ArticleController.getOneArticle);
+
+// 获取tags列表
+router.get('/getTags',TagController.getTag)
 export default router

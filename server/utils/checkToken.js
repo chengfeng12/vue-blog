@@ -32,6 +32,5 @@ export default async function ( ctx, next ) {
       console.log(err);
       ctx.throw(500) //直接抛出500的错误，在所有加入checktoken的代码里面
     }
-}
-  
+  }
 }

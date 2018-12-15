@@ -70,7 +70,126 @@ export default {
             // 当在选择文章的时候，当前选中的文章扔到全局状态管理里面
             this.SET_CURRENT_ARTICLE(this.articleList[index])
         },
-        ...mapMutations(['SET_CURRENT_ARTICLE'])
+        ...mapMutations(['SET_CURRENT_ARTICLE']),
+        // 更新列表中的Tags
+        // 这个方法是为了让父组件传递过来的数据，实现tag的文章显示或者隐藏
+        updateListByTags(chosenTags) {
+            //  tag组件传递过来的参数
+            // 传递过来的值长度为0的话让article.isChosen 为 true  (article) 文章数组列表
+            if (chosenTags.length === 0) {
+                // 让每一个article.isChosen都为treue
+                for (let article of this.articleList) {
+                    // console.log(article.isChosen);
+                    article.isChosen = true;
+                }
+            }else {
+                for (let article of this.articleList) {
+                    let flag = false
+                    for (let tag of chosenTags) {
+                        if (article.tags.indexOf(tag) !== -1) {
+                            flag = true
+                        }
+                    }
+                    // 如果查找到article里面是否有对应的tag，有的话让显示
+                    if (flag) {
+                        article.isChosen = true
+                    }else {
+                        article.isChosen = false
+                    }
+                }
+                // entries() 方法返回一个数组的迭代对象，该对象包含数组的键值对 (key/value)。
+                // 迭代对象中数组的索引值作为 key， 数组元素作为 value。
+                for (let [index, article] of this.articleList.entries()) {
+                    // console.log(article);
+                    // console.log(index);
+                    
+                    if (article.isChosen) {
+                        this.activeIndex = index;
+                        
+                        // console.log(this.articleList[this.activeIndex]);
+                        
+                        // 调用方法，进行全局存储
+                        this.SET_CURRENT_ARTICLE(this.articleList[this.activeIndex]);
+                        break
+                    }
+                }
+            }
+        },
+        updateArticleTag(oldVal, newVal, chosenTags) {
+            // console.log('我被调用了');
+            
+            for (let [i, article] of this.articleList.entries()) {
+                if (article.tags.length) {
+                    const tags = article.tags.split(',')
+                    const index = tags.indexOf(oldVal)
+                    if (index !== -1) {
+                        // console.log(newIndex);                        
+                        const newIndex = tags.indexOf(newVal)
+                        // 如果新值在该文章中已经有了，则直接删除旧值，否则将旧值修改为新值
+                        if (newIndex === -1) {
+                            tags[index] = newVal
+                            article.tags = tags.join(',')
+                            // console.log(article);
+                            request({
+                                url: `/updateTag/${article.id}`,
+                                method: 'put',
+                                data: {
+                                    tags: article
+                                }
+                            }).then(res=>{
+                                console.log(res);
+                            }).catch(err=>{
+                                console.log(err);
+                            })
+                        }else {
+                            this.deleteSpecArticleTag(oldVal, i)
+                        }
+                        this.updateListByTags(chosenTags)
+                    }
+                }
+            }
+            // 防止更改了activeIndex的article，所以提交一个mutation
+            // this.updateArticle(this.articleList[this.activeIndex])
+        },
+        // 删除标签
+        deleteArticleTag(tag) {
+            // console.log(tag);
+            
+            for (let article of this.articleList) {
+                // 文章已发布，至少保留一篇文章
+                if (article.tags.length) {
+                    // 把对象中的tags属性切割成数组
+                    const tags = article.tags.split(',')
+                    // 取出带有要删除标签的文章
+                    const index = tags.indexOf(tag)
+                    
+                    if (index !== -1) {
+                        if (tags.length === 1 && article.isPublished === 1) {
+                            console.error('已发布文章请至少保持一个tag!')
+                        }else {
+                            // 删除标签
+                            tags.splice(index, 1);
+                            // 切割成数组形式
+                            article.tags = tags.join(',');
+                            console.log(article.tags + '    fawefa e');
+                            request({
+                                url: `/deltags/${article.id}`,
+                                method: 'post',
+                                data: {
+                                    tags: article.tags
+                                }
+                            }).then(res=>{
+                                console.log(res);
+                            }).catch(err=>{
+                               console.log(err);
+                            })
+                        }
+                    }
+                }
+            }
+            // 防止更改了activeIndex的article，所以提交一个mutation
+            // this.updateArticle(this.articleList[this.activeIndex])
+        },
     },
     // 监听vuex数据变化，如果发生变化，更新articleList数据
     watch:{

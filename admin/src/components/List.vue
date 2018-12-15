@@ -29,10 +29,11 @@
 </template>
 
 <script>
+// 引入头部和侧边导航组件
+import HeadNav from '@/components/common/HeadNav'
+import Aside from '@/components/common/Aside'
 import ArticleList from "@/components/common/ArticleList";
 import Editor from "@/components/common/Editor";
-import Aside from "@/components/common/Aside";
-import HeadNav from "@/components/common/HeadNav";
 import request from '@/utils/request'
 export default {
   name: "List",
@@ -42,10 +43,10 @@ export default {
     };
   },
   components: {
-    ArticleList,
-    Editor,
+    HeadNav,
     Aside,
-    HeadNav
+    ArticleList,
+    Editor
   },
   methods: {
     // 发表文章的方法

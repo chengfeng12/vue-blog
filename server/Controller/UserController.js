@@ -22,7 +22,7 @@ class UserController {
             console.log('格式正确');
             // 格式正确的话，则查询数据库里面是否存在改用户
             const res = await User.getUserByName(user);
-            console.log(res); 
+            // console.log(res); 
             if(res.length !== 0){
                 ctx.body = {
                     success: false,
